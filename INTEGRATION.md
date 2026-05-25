@@ -14,6 +14,18 @@
 > | Step 7 (Gallery) originally said "wrap the masonry div" | Replace the JS-Masonry markup entirely with the `.iyf-gallery` CSS-columns layout | Coexistence created visual fights; the design system component is JS-free |
 > | Step 3 + Step 8 specified as separate work | Folded into one commit | Both touch `_layouts/post.liquid`; separating them is churn |
 
+> **v1.2 — Jump to Next Show (2026-05-25)** — additive UX on the calendar.
+>
+> | Surface | Provided by design system | Provided by consuming app |
+> |---|---|---|
+> | Subtle row accent | `tr[data-next-show="true"]` — yellow tint mixed into `--surface-elev` + inset left-edge yellow accent. Theme-aware. Mobile-card variant overrides `border-left` to yellow. | — |
+> | Click flash | `tr.is-jump-flash` runs `@keyframes iyfJumpFlash` for 1.4s, gated on `prefers-reduced-motion: no-preference`. | — |
+> | Button | `.btn-ghost.btn-ghost--on-dark` (already shipped) is the intended variant. | The host renders the button inside its hero. |
+> | "Which row is next?" | — | Vanilla JS: parse `.iyf-month-heading` year + each row's first cell, find first `<tr>` whose date `>= localMidnight(today)`, set `data-next-show="true"`, wire click → `scrollIntoView({behavior: reducedMotion ? 'auto' : 'smooth', block: 'center'})` + toggle `.is-jump-flash`. |
+> | All-past calendar | — | Host JS hides the button (`button.hidden = true`). |
+>
+> Reference JS implementation: `Design/inyourfacecomedy/assets/js/jump-to-next-show.js` (116 lines, zero deps, IIFE + `'use strict'`).
+
 
 A file-by-file map for landing this design system inside `Design/inyourfacecomedy/`. The order matters — tokens first, then components, then layout edits. Verify after every step with `Skill("Interceptor")` at 320 / 375 / 768 / 1440 px.
 
