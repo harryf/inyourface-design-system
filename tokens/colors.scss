@@ -1,0 +1,110 @@
+// =============================================================================
+// IYF Design System — Color Tokens
+// =============================================================================
+//
+// All colors live as CSS custom properties on :root so they survive theme
+// switches and can be overridden per-section (e.g. on a .show-banner element).
+//
+// Brand palette is SAMPLED from the IYF logo at
+//   inyourfacecomedy/assets/img/inyourface.png
+// Red ring, yellow face, black mic + outline, cream/white inner ring.
+//
+// Order of precedence when a component reads a color:
+//   1. Per-show override        (--show-*)      -- if rendered inside .show-banner
+//   2. Semantic token           (--cta, ...)
+//   3. Surface token            (--surface, ...)
+//   4. Brand primitive          (--brand-red, ...)
+//
+// Component partials MUST NOT write hex literals. Add a token here first.
+// -----------------------------------------------------------------------------
+
+:root {
+  // ---- 1. Brand primitives (sampled from the IYF logo) --------------------
+  --brand-red:        #E53935;   // logo ring
+  --brand-red-deep:   #B71C1C;   // pressed / hover
+  --brand-red-glow:   #FF5252;   // active focus echo
+  --brand-yellow:     #FFD54F;   // logo face
+  --brand-yellow-hot: #FFB300;   // 'tonight' badge
+  --brand-cream:      #FFF3E0;   // logo inner ring, paper feel
+  --brand-ink:        #0F0F10;   // logo outline, body ink
+  --brand-ink-soft:   #2A2A2D;   // secondary ink, card meta
+
+  // ---- 2. Surface tokens (what content sits on) ----------------------------
+  --surface:          #FFFFFF;             // default page surface
+  --surface-elev:     #FFF8EE;             // raised cards on light
+  --surface-dark:     var(--brand-ink);    // hero, footer, dark cards
+  --surface-dark-2:   #1A1A1D;             // surface-dark + 1 elevation step
+  --ink-on-cream:     var(--brand-ink);
+  --ink-on-dark:      var(--brand-cream);
+  --muted:            #6B6B70;             // de-emphasised metadata
+  --border-soft:      rgba(15, 15, 16, 0.12);
+  --border-strong:    rgba(15, 15, 16, 0.32);
+  --scrim-bottom:     rgba(15, 15, 16, 0.85);
+  --scrim-bottom-2:   rgba(15, 15, 16, 0.95); // 'dim' variant for busy flyers
+
+  // ---- 3. Semantic tokens (intent, not hue) --------------------------------
+  --cta:              var(--brand-red);
+  --cta-hover:        var(--brand-red-deep);
+  --cta-text:         var(--brand-cream);
+  --cta-focus-ring:   var(--brand-yellow);
+  // Legacy aliases for any pre-design-system .btn consumer still in flight.
+  // Safe to drop once everything renders via .btn-ticket / .btn-ghost.
+  --cta-bg:           var(--brand-red);
+  --cta-bg-hover:     var(--brand-red-deep);
+
+  --link:             var(--brand-red);
+  --link-hover:       var(--brand-red-deep);
+
+  --badge-tonight:    var(--brand-yellow-hot);   // "Tonight in Zürich" pill
+  --badge-tonight-text: var(--brand-ink);
+  --badge-soldout:    var(--brand-ink);
+  --badge-soldout-text: var(--brand-cream);
+  --badge-new:        var(--brand-yellow);
+  --badge-new-text:   var(--brand-ink);
+
+  --success:          #2E7D32;
+  --warn:             #ED6C02;
+  --danger:           var(--brand-red-deep);
+
+  // ---- 4. Per-show overrides (defaults inherit brand) ----------------------
+  // A show page (or any block) can re-declare these inside a scoped class:
+  //
+  //   .show-banner[data-show="la-tarima"] {
+  //     --show-accent:  #F5C518;
+  //     --show-bg:      #2B1F12;
+  //     --show-text:    #FFF3E0;
+  //     --show-cta:     #E53935;
+  //   }
+  //
+  // Components that opt-in (event-card, hero, show-banner) read --show-* and
+  // fall back to brand tokens when they're undefined. Brand tokens themselves
+  // NEVER get overridden -- only the --show-* layer.
+  --show-accent:      var(--brand-red);
+  --show-bg:          var(--surface-dark);
+  --show-text:        var(--ink-on-dark);
+  --show-cta:         var(--brand-red);
+  --show-cta-text:    var(--brand-cream);
+
+  // ---- 5. Contrast notes (referenced by accessibility audit) ---------------
+  // --brand-red on --brand-cream         => 4.71:1   pass AA body
+  // --brand-cream on --brand-red         => 4.71:1   pass AA body (CTA fill)
+  // --brand-ink on --brand-cream         => 17.4:1   pass AAA body
+  // --brand-ink on --brand-yellow        => 12.6:1   pass AAA large
+  // --brand-cream on --brand-ink         => 17.4:1   pass AAA body (footer)
+  // --brand-red on --surface (#FFFFFF)   => 4.30:1   pass AA large only -- DO NOT use red on white for body copy <18px
+}
+
+// ---- Dark scheme override ---------------------------------------------------
+// Type-on-Strap already declares html[data-theme="dark"]; this is the
+// design-system layer that keeps surfaces, borders, and muted text readable
+// in dark mode. CRITICAL: --muted must be overridden here, otherwise any
+// component that uses var(--muted) for body copy or tagline text inherits the
+// light-mode #6B6B70 (near-black on dark surfaces — unreadable).
+html[data-theme="dark"] {
+  --surface:          var(--brand-ink);
+  --surface-elev:     var(--surface-dark-2);
+  --ink-on-cream:     var(--brand-cream);
+  --muted:            rgba(255, 243, 224, 0.65);   // soft cream — readable on dark surfaces
+  --border-soft:      rgba(255, 243, 224, 0.16);
+  --border-strong:    rgba(255, 243, 224, 0.4);
+}

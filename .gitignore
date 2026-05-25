@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local-only
+*.log
+.env
+.env.local
+
+# Future SCSS compile (if ever wired up)
+node_modules/
+.sass-cache/
+*.css.map

@@ -1,0 +1,141 @@
+// =============================================================================
+// IYF Design System — Follow Buttons
+// =============================================================================
+// The current footer renders the social links as plain `display: block` text
+// rows. They read as a sitemap, not as CTAs. New approach: a grid of large
+// chip buttons (≥48px tall), icon + platform label, on a dark surface for
+// visual weight.
+//
+// Anatomy:
+//
+//   ┌─────────────────────────────────────────────┐
+//   │  ┌──────────────┐ ┌──────────────┐          │
+//   │  │ ✉  Telegram  │ │ 📷 Instagram │          │
+//   │  └──────────────┘ └──────────────┘          │
+//   │  ┌──────────────┐ ┌──────────────┐          │
+//   │  │ 👥 Meetup    │ │ ▶  YouTube   │          │
+//   │  └──────────────┘ └──────────────┘          │
+//   └─────────────────────────────────────────────┘
+//
+// Used in: footer "Follow us", /follow/ page channels block.
+// -----------------------------------------------------------------------------
+
+.iyf-follow-chips {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 28rem;
+
+  @media (min-width: 768px) {
+    max-width: none;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  li {
+    display: block;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-3);
+    min-height: var(--touch-min);
+    padding: 0.75rem 1rem;
+    background: var(--brand-ink);
+    color: var(--brand-cream);
+    border: 1px solid var(--brand-ink-soft);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition:
+      background-color var(--t-fast) var(--ease-out),
+      border-color     var(--t-fast) var(--ease-out),
+      transform        var(--t-fast) var(--ease-out);
+
+    i, svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex: 0 0 auto;
+      color: var(--brand-yellow);
+      font-size: 1.25rem;
+      transition: color var(--t-fast) var(--ease-out);
+    }
+
+    &:hover {
+      background: var(--brand-red);
+      border-color: var(--brand-red);
+      transform: translateY(-1px);
+    }
+    &:hover i,
+    &:hover svg {
+      color: var(--brand-cream);
+    }
+    &:focus-visible {
+      outline: 3px solid var(--cta-focus-ring);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// -- Variant: on a light surface (e.g. /follow/ body) ------------------------
+.iyf-follow-chips--light a {
+  background: var(--surface-elev);
+  color: var(--brand-ink);
+  border-color: var(--border-soft);
+
+  i, svg {
+    color: var(--brand-red);
+  }
+  &:hover {
+    background: var(--brand-ink);
+    color: var(--brand-cream);
+    border-color: var(--brand-ink);
+  }
+  &:hover i,
+  &:hover svg {
+    color: var(--brand-yellow);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// .iyf-newsletter-card  -- Get-show-alerts block used in footer + /follow/.
+// Big, hard to miss. Always uses the brand-red as the CTA.
+// -----------------------------------------------------------------------------
+.iyf-newsletter-card {
+  background: var(--surface-dark);
+  color: var(--brand-cream);
+  padding: var(--space-6) var(--space-5);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--brand-yellow);
+  }
+  p {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--fs-base);
+    line-height: var(--lh-normal);
+    color: var(--brand-cream);
+  }
+  .btn-ticket {
+    align-self: flex-start;
+    width: 100%;
+    max-width: 22rem;
+  }
+}

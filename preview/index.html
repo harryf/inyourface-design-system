@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>IYF Design System — Preview</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../dist/design-system.css">
+
+  <style>
+    /* Preview-only chrome -- NOT part of the design system itself */
+    body {
+      margin: 0;
+      background: #ECECEC;
+      font-family: var(--font-body);
+      color: var(--ink-on-cream);
+    }
+    .preview-shell {
+      max-width: 480px;        /* mobile-first preview frame */
+      margin: 0 auto;
+      background: var(--surface);
+      box-shadow: 0 0 0 1px var(--border-soft), 0 20px 60px -20px rgba(0,0,0,0.25);
+    }
+    .preview-section {
+      padding: 1.75rem 1.25rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .preview-label {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 1rem;
+      padding: 0.2rem 0.55rem;
+      background: var(--surface-elev);
+      border: 1px solid var(--border-soft);
+      border-radius: 999px;
+    }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    .swatch {
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-soft);
+      display: grid;
+      place-items: end;
+      padding: 0.4rem;
+      color: var(--brand-cream);
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+    }
+    .swatch[data-on-light] { color: var(--brand-ink); text-shadow: none; }
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin: 0.4rem 0;
+    }
+    .type-row code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    @media (min-width: 900px) {
+      body { padding: 2rem 0; }
+      .preview-shell { max-width: 900px; }
+    }
+  </style>
+</head>
+<body class="iyf-context">
+
+<div class="preview-shell">
+
+  <!-- ========================================================== HERO -->
+  <section class="iyf-hero iyf-hero--centered"
+           style="background-image: url('../../inyourfacecomedy/assets/img/inyourface.jpeg');">
+    <p class="iyf-hero__eyebrow">English Stand-Up Comedy in Zürich</p>
+    <h1 class="iyf-hero__title">IN YOUR<br>FACE</h1>
+    <p class="iyf-hero__subtitle">Sharper jokes, smaller rooms, real laughs.</p>
+    <div class="iyf-hero__actions">
+      <a class="btn-ticket btn-ticket--xl" href="#cal">See What's On</a>
+      <a class="btn-ghost btn-ghost--on-dark" href="#follow">Get Show Alerts</a>
+    </div>
+  </section>
+
+  <!-- ========================================================== TYPOGRAPHY -->
+  <section class="preview-section">
+    <span class="preview-label">Typography</span>
+    <div class="type-row">
+      <h1 style="font-family:var(--font-display); font-size:var(--fs-2xl); text-transform:uppercase; letter-spacing:-0.02em; line-height:1.05; margin:0;">Comedy Brew</h1>
+      <code>Anton · fs-2xl</code>
+    </div>
+    <div class="type-row">
+      <h2 style="font-family:var(--font-body); font-weight:700; font-size:var(--fs-lg); margin:0;">Thursday open mics at Robins</h2>
+      <code>Inter 700 · fs-lg</code>
+    </div>
+    <div class="type-row">
+      <p style="font-family:var(--font-accent); font-size:var(--fs-md); color:var(--brand-red); margin:0;">Watch comedy being born on stage 👶</p>
+      <code>Permanent Marker</code>
+    </div>
+    <div class="type-row">
+      <p style="font-family:var(--font-body); font-size:var(--fs-base); margin:0;">Body copy is Inter at the fluid base size. Reads cleanly on a 375px phone and on a 27-inch monitor without any media query gymnastics.</p>
+    </div>
+  </section>
+
+  <!-- ========================================================== COLOR -->
+  <section class="preview-section">
+    <span class="preview-label">Color tokens</span>
+    <div class="swatch-grid">
+      <div class="swatch" style="background:var(--brand-red);">brand-red</div>
+      <div class="swatch" style="background:var(--brand-red-deep);">red-deep</div>
+      <div class="swatch" data-on-light style="background:var(--brand-yellow);">yellow</div>
+      <div class="swatch" data-on-light style="background:var(--brand-cream);">cream</div>
+      <div class="swatch" style="background:var(--brand-ink);">ink</div>
+      <div class="swatch" style="background:var(--brand-yellow-hot); color:var(--brand-ink);">yellow-hot</div>
+      <div class="swatch" data-on-light style="background:var(--surface-elev);">surface-elev</div>
+      <div class="swatch" style="background:var(--muted);">muted</div>
+    </div>
+    <p style="margin-top:0.75rem; font-size:0.85rem; color:var(--muted);">
+      Sampled from the logo at <code>assets/img/inyourface.png</code>. Brand red on cream and ink on cream both pass WCAG AA body contrast.
+    </p>
+  </section>
+
+  <!-- ========================================================== BUTTONS -->
+  <section class="preview-section">
+    <span class="preview-label">Buttons</span>
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.75rem;">Mobile-first: the primary CTA takes the whole row. Min-height 48px.</p>
+    <div style="display:flex; flex-direction:column; gap:0.6rem; margin-bottom:1rem;">
+      <a class="btn-ticket btn-ticket--xl" href="#">Get Tickets · CHF 10</a>
+      <a class="btn-ticket" href="#">Get Tickets</a>
+      <a class="btn-ticket btn-ticket--sm" href="#">Tickets</a>
+      <a class="btn-ghost" href="#">More info</a>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+      <a class="btn-chip" href="#"><i class="fab fa-telegram"></i> Telegram</a>
+      <a class="btn-chip" href="#"><i class="fab fa-instagram"></i> Instagram</a>
+    </div>
+  </section>
+
+  <!-- ========================================================== EVENT CARD -->
+  <section class="preview-section">
+    <span class="preview-label">Event card · brand</span>
+    <article class="iyf-event-card">
+      <div class="iyf-event-card__badges">
+        <span class="iyf-badge iyf-badge--tonight">Tonight</span>
+      </div>
+      <div class="iyf-event-card__header">
+        <div class="iyf-event-card__date">
+          <span class="iyf-event-card__day">28</span>
+          <span class="iyf-event-card__month">May</span>
+        </div>
+        <div class="iyf-event-card__meta">
+          <span class="iyf-event-card__weekday-time">Thu · 19:30</span>
+          <span class="iyf-event-card__venue">Robins · Niederdorf</span>
+        </div>
+      </div>
+      <h3 class="iyf-event-card__title"><a href="#">Comedy Brew</a></h3>
+      <p class="iyf-event-card__tagline">Cold beer, hot takes, done by 10pm ⏰</p>
+      <div class="iyf-event-card__footer">
+        <span class="iyf-event-card__price">CHF 10</span>
+        <div class="iyf-event-card__cta">
+          <a class="btn-ticket btn-ticket--sm" href="#">Get Tickets</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ========================================================== EVENT CARD · LA TARIMA OVERRIDE -->
+  <section class="preview-section">
+    <span class="preview-label">Event card · show-banner override</span>
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.75rem;">
+      Same card, wrapped in <code>.show-banner[data-show="la-tarima"]</code>. Card reads the show's palette without touching brand tokens.
+    </p>
+    <div class="show-banner" data-show="la-tarima">
+      <article class="iyf-event-card">
+        <div class="iyf-event-card__badges">
+          <span class="iyf-badge iyf-badge--lang">Español</span>
+        </div>
+        <div class="iyf-event-card__header">
+          <div class="iyf-event-card__date">
+            <span class="iyf-event-card__day">09</span>
+            <span class="iyf-event-card__month">May</span>
+          </div>
+          <div class="iyf-event-card__meta">
+            <span class="iyf-event-card__weekday-time">Sat · 20:00</span>
+            <span class="iyf-event-card__venue">Basel</span>
+          </div>
+        </div>
+        <h3 class="iyf-event-card__title"><a href="#">La Tarima</a></h3>
+        <p class="iyf-event-card__tagline">Comedia 100% en español 🌶️</p>
+        <div class="iyf-event-card__footer">
+          <span class="iyf-event-card__price">CHF 25</span>
+          <div class="iyf-event-card__cta">
+            <a class="btn-ticket btn-ticket--sm" href="#">Entradas</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========================================================== CALENDAR -->
+  <section class="preview-section">
+    <span class="preview-label">Calendar · markdown table transformed</span>
+    <p style="font-size:0.85rem; color:var(--muted); margin-bottom:0.75rem;">
+      Same <code>&lt;table&gt;</code> Kramdown emits today, wrapped in <code>.iyf-calendar</code>. CSS repaints each row as a card under 768px — ticket link always visible.
+    </p>
+    <h2 class="iyf-month-heading">May 2026</h2>
+    <p class="iyf-month-flavor">May the laughs be with you.</p>
+    <div class="iyf-calendar">
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Day</th><th>Show</th><th>Info</th><th>Tickets</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>May 5</td><td>Tue</td>
+            <td><a href="#">Jokes, Jokes, Jokes</a></td>
+            <td>Local comics + Woocash hosting the chaos 🎤</td>
+            <td><a href="#">Get Tickets</a></td>
+          </tr>
+          <tr>
+            <td>May 7</td><td>Thu</td>
+            <td><a href="#">Comedy Brew</a></td>
+            <td>Watch comedy being born on stage 👶</td>
+            <td><a href="#">Get Tickets</a></td>
+          </tr>
+          <tr>
+            <td>May 9</td><td>Sat</td>
+            <td><a href="#">La Tarima</a></td>
+            <td>Comedia 100% en español, in Basel 🌶️</td>
+            <td><a href="#">Get Tickets</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========================================================== FOLLOW CHIPS -->
+  <section class="preview-section" id="follow" style="background:var(--surface-dark); color:var(--brand-cream);">
+    <span class="preview-label" style="background:var(--surface-dark-2); color:var(--brand-cream); border-color:var(--brand-ink-soft);">Follow buttons</span>
+    <div class="iyf-newsletter-card" style="margin-bottom:1.25rem;">
+      <h3>Get show alerts</h3>
+      <p>Email when tickets drop. About once a week. No spam, no algorithm, just dates.</p>
+      <a class="btn-ticket" href="#">Sign me up</a>
+    </div>
+    <ul class="iyf-follow-chips">
+      <li><a href="#"><i class="fab fa-telegram"></i> Telegram</a></li>
+      <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+      <li><a href="#"><i class="fab fa-meetup"></i> Meetup</a></li>
+      <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+      <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+      <li><a href="#"><i class="fab fa-tiktok"></i> TikTok</a></li>
+    </ul>
+  </section>
+
+  <!-- ========================================================== GALLERY -->
+  <section class="preview-section">
+    <span class="preview-label">Gallery (masonry)</span>
+    <div class="iyf-gallery">
+      <figure><img src="https://images.unsplash.com/photo-1525348371953-29ed3c4f3a16?w=600&h=400&fit=crop" alt="Comedy crowd"></figure>
+      <figure><img src="https://images.unsplash.com/photo-1542640244-7e672d6cef4e?w=600&h=800&fit=crop" alt="Microphone close up"></figure>
+      <figure><img src="https://images.unsplash.com/photo-1567593810070-7a3d471af022?w=600&h=500&fit=crop" alt="Stage lights"></figure>
+      <figure><img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=600&h=700&fit=crop" alt="Audience laughing"></figure>
+      <figure><img src="https://images.unsplash.com/photo-1574391884720-bbc049ec09ad?w=600&h=400&fit=crop" alt="Standup mic"></figure>
+      <figure><img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=600&h=600&fit=crop" alt="Comedy club night"></figure>
+    </div>
+  </section>
+
+  <!-- ========================================================== BADGES -->
+  <section class="preview-section">
+    <span class="preview-label">Badges</span>
+    <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+      <span class="iyf-badge iyf-badge--tonight">Tonight in Zürich</span>
+      <span class="iyf-badge iyf-badge--new">New show</span>
+      <span class="iyf-badge iyf-badge--soldout">Sold out</span>
+      <span class="iyf-badge iyf-badge--lang">Español</span>
+      <span class="iyf-badge iyf-badge--muted">Sliding scale</span>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

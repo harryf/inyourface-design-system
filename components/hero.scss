@@ -1,0 +1,173 @@
+// =============================================================================
+// IYF Design System — Hero
+// =============================================================================
+// One hero contract for the WHOLE site, replacing the existing split between
+// `.call-out` (home) and `<article class="feature-image"> header` (inner pages).
+//
+// Anatomy:
+//
+//   ┌──────────────────────────────────────────┐
+//   │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │  <-- bg image (cover)
+//   │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │
+//   │ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │  <-- gradient scrim
+//   │ ░░░░░░░░░░ COMEDY BREW ░░░░░░░░░░░░░░░░ │  <-- h1 (display)
+//   │ ░░░░░░░░ Thursday · Robins ░░░░░░░░░░░░ │  <-- eyebrow
+//   │ ░░░░░░░ [ GET TICKETS  → ] ░░░░░░░░░░░░ │  <-- ticket CTA (optional)
+//   └──────────────────────────────────────────┘
+//
+// IMPLEMENTATION NOTE (v1.1, post-iteration backsync):
+//   The hero is CENTERED + CONTENT-HEIGHT by default. The previous spec had
+//   `justify-content: flex-end` and `min-height: 60vh` so the title sat at the
+//   bottom of a full hero band; in practice this left a big empty gap between
+//   the navbar and the first <h1>, especially on mobile. We folded the
+//   compact-style behaviour back into the base selector so every variant
+//   (home / inner page / show post) renders without that gap.
+//
+// Variants:
+//   .iyf-hero               base — centered, content-height, default scrim
+//   .iyf-hero--centered     no-op alias (kept for templates that still apply it)
+//   .iyf-hero--compact      tighter padding + smaller title (inner pages)
+//   .iyf-hero--dim          stronger scrim for busy flyers (show pages);
+//                           on mobile, title font caps at --fs-xl
+// -----------------------------------------------------------------------------
+
+.iyf-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     // was flex-end — no empty gap above title
+  align-items: center;          // centered by default; --centered modifier is now a no-op alias
+  text-align: center;
+  width: 100%;
+  min-height: auto;             // was 60vh — hero is content-tall; bg image shows behind text only
+  padding: var(--space-7) var(--space-5) var(--space-6);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: var(--brand-cream);
+  overflow: hidden;
+  isolation: isolate; // contain ::before/::after stacking
+
+  // Bottom-up gradient scrim -- text region stays dark, image breathes at top.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 15, 16, 0.20) 0%,
+      rgba(15, 15, 16, 0.00) 30%,
+      rgba(15, 15, 16, 0.55) 65%,
+      var(--scrim-bottom) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+  // Subtle vignette so corners don't compete with text.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 50%,
+      rgba(15, 15, 16, 0.35) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__eyebrow {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--fs-sm);
+    letter-spacing: var(--ls-extra);
+    text-transform: uppercase;
+    color: var(--brand-yellow);
+    margin: 0 0 var(--space-3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+
+  &__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-3xl);
+    line-height: var(--lh-tight);
+    letter-spacing: var(--ls-tight);
+    text-transform: uppercase;
+    color: var(--brand-cream);
+    margin: 0 0 var(--space-3);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+  }
+
+  &__subtitle {
+    font-family: var(--font-accent);
+    font-size: var(--fs-lg);
+    line-height: var(--lh-snug);
+    color: var(--brand-yellow);
+    margin: 0 auto var(--space-5);   // auto sides so subtitle stays centered under the title
+    max-width: 32rem;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;          // centered by default
+    gap: var(--space-3);
+  }
+}
+
+// -- Variant: dim (use when the flyer image is bright/cluttered) -------------
+.iyf-hero--dim {
+  &::after {
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 15, 16, 0.45) 0%,
+      rgba(15, 15, 16, 0.30) 35%,
+      rgba(15, 15, 16, 0.75) 70%,
+      var(--scrim-bottom-2) 100%
+    );
+  }
+}
+
+// -- Variant: centered (no-op alias since v1.1) ------------------------------
+// Defaults already center content; this class is kept so existing templates
+// that include it (home.liquid) keep parsing without an "unknown class" smell.
+.iyf-hero--centered {}
+
+// -- Variant: compact (inner pages with light topical content) --------------
+// Tighter padding + smaller title than the default hero. Centering and
+// content-height behaviour are inherited from .iyf-hero.
+.iyf-hero--compact {
+  padding: var(--space-6) var(--space-5) var(--space-5);
+
+  .iyf-hero__title {
+    font-size: var(--fs-2xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .iyf-hero {
+    padding: var(--space-5) var(--space-4) var(--space-5);
+  }
+  .iyf-hero--compact {
+    padding: var(--space-4) var(--space-4) var(--space-4);
+  }
+  // Cap title size on mobile so long titles don't dominate the viewport.
+  // Show pages (.iyf-hero--dim) get a tighter cap because their titles tend to
+  // be the longest ("Comedy Brew • English Stand-Up Comedy Open Mic …").
+  // Recommend pairing this with a title-split in the show layout — see
+  // INTEGRATION.md "Step 8" for the Liquid pattern.
+  .iyf-hero__title {
+    font-size: var(--fs-2xl);
+  }
+  .iyf-hero--dim .iyf-hero__title {
+    font-size: var(--fs-xl);
+  }
+}

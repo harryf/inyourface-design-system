@@ -1,0 +1,102 @@
+// =============================================================================
+// IYF Design System — Per-Show Theme Override
+// =============================================================================
+// Every recurring show has its own visual language already -- La Tarima is
+// hot-yellow on dark brown (Spanish bullfighter), Brexiles is muted earth
+// tones (English pub), Down Under is green (kangaroo), Pulp Non-Fiction is
+// noir black-and-yellow. The site should be able to pick up the show's flyer
+// palette on its own page, while keeping IYF brand red as a fallback.
+//
+// Mechanism: the `.show-banner` class scopes a redeclaration of --show-*
+// variables. Components that opted in (.iyf-event-card, .iyf-hero, .btn-ticket)
+// read --show-* with brand fallbacks. Brand tokens are NEVER touched.
+//
+// Two ways to apply:
+//   1. Frontmatter-driven inline style in the show page layout:
+//
+//        <article class="show-banner" style="
+//          --show-accent: {{ page.show_accent | default: '#E53935' }};
+//          --show-bg:     {{ page.show_bg     | default: '#FFF3E0' }};
+//          --show-text:   {{ page.show_text   | default: '#0F0F10' }};
+//          --show-cta:    {{ page.show_cta    | default: '#E53935' }};
+//        ">
+//
+//   2. Data-attribute selectors in this stylesheet (for shows we want
+//      "official" palettes for, version-controlled here).
+// -----------------------------------------------------------------------------
+
+.show-banner {
+  // Defaults inherit the brand. Override below per show, or via inline style.
+  --show-accent:   var(--brand-red);
+  --show-bg:       var(--surface-elev);
+  --show-text:     var(--brand-ink);
+  --show-cta:      var(--brand-red);
+  --show-cta-text: var(--brand-cream);
+}
+
+// ----- Show-specific palettes (curated; add as flyers stabilise) -----------
+.show-banner[data-show="latarima"],
+.show-banner[data-show="la-tarima"] {
+  --show-accent:   #F5C518;  // Spanish yellow
+  --show-bg:       #261812;
+  --show-text:     #FFF3E0;
+  --show-cta:      #E53935;
+  --show-cta-text: #FFF3E0;
+}
+
+.show-banner[data-show="brexiles"] {
+  --show-accent:   #C9A24A;  // earthy gold
+  --show-bg:       #1E1B16;
+  --show-text:     #F6EDD9;
+  --show-cta:      #C9A24A;
+  --show-cta-text: #1E1B16;
+}
+
+.show-banner[data-show="downunder"],
+.show-banner[data-show="down-under"] {
+  --show-accent:   #6BAC00;  // Aussie green
+  --show-bg:       #11150B;
+  --show-text:     #ECF7CC;
+  --show-cta:      #E53935;
+  --show-cta-text: #FFF3E0;
+}
+
+.show-banner[data-show="pulpnonfiction"],
+.show-banner[data-show="pulp-non-fiction"] {
+  --show-accent:   #FFD54F;  // noir yellow
+  --show-bg:       #0E0D0B;
+  --show-text:     #FFF3E0;
+  --show-cta:      #FFD54F;
+  --show-cta-text: #0E0D0B;
+}
+
+.show-banner[data-show="comedybrew"],
+.show-banner[data-show="comedy-brew"] {
+  --show-accent:   #E53935;  // brand-red, comedy-brew uses the house palette
+  --show-bg:       #FFF3E0;
+  --show-text:     #0F0F10;
+  --show-cta:      #E53935;
+  --show-cta-text: #FFF3E0;
+}
+
+// The real Jekyll permalink is /jokesjokesjokes/ (three "jokes"); aliases
+// kept for the slug variants the design system originally shipped with.
+.show-banner[data-show="jokesjokesjokes"],
+.show-banner[data-show="jokesjokes"],
+.show-banner[data-show="jokes-jokes-jokes"] {
+  --show-accent:   #FF5252;  // hot pink-red
+  --show-bg:       #14080A;
+  --show-text:     #FFE3D4;
+  --show-cta:      #FFD54F;
+  --show-cta-text: #14080A;
+}
+
+.show-banner[data-show="jackpot"],
+.show-banner[data-show="jackpotcomedy"],
+.show-banner[data-show="jackpot-comedy"] {
+  --show-accent:   #00A86B;  // casino felt green
+  --show-bg:       #0E0F10;
+  --show-text:     #FFF3E0;
+  --show-cta:      #FFD54F;
+  --show-cta-text: #0E0F10;
+}

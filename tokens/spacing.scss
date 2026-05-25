@@ -1,0 +1,52 @@
+// =============================================================================
+// IYF Design System — Spacing + Layout Tokens
+// =============================================================================
+// 8px base scale. Use named scale steps in components, not raw rem values.
+// Breakpoints mirror Type-on-Strap's existing $break / $sm-break for a
+// painless integration.
+// -----------------------------------------------------------------------------
+
+:root {
+  --space-0:  0;
+  --space-1:  0.25rem;   //  4px
+  --space-2:  0.5rem;    //  8px
+  --space-3:  0.75rem;   // 12px
+  --space-4:  1rem;      // 16px
+  --space-5:  1.25rem;   // 20px
+  --space-6:  1.5rem;    // 24px
+  --space-7:  2rem;      // 32px
+  --space-8:  2.5rem;    // 40px
+  --space-9:  3rem;      // 48px (touch-target floor)
+  --space-10: 4rem;      // 64px
+  --space-12: 6rem;      // 96px
+
+  // Radii
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-pill: 999px;
+
+  // Touch target floor -- WCAG 2.5.5 + Apple HIG
+  --touch-min: 48px;
+
+  // Container widths
+  --container-narrow: 36rem;   // 576px (long-form body)
+  --container-prose:  44rem;   // 704px (article body)
+  --container-wide:   68rem;   // 1088px (calendar, gallery)
+
+  // Z-index scale (no magic numbers)
+  --z-base:    1;
+  --z-card:    10;
+  --z-sticky:  20;
+  --z-hero:    30;
+  --z-nav:     40;
+  --z-modal:   50;
+}
+
+// Breakpoint mixins / values (mirror existing _variables.scss)
+$bp-xs:  320px;
+$bp-sm:  576px;
+$bp-md:  768px;
+$bp-lg:  1024px;
+$bp-xl:  1400px;

@@ -1,0 +1,230 @@
+// =============================================================================
+// IYF Design System — Calendar Table (mobile-first transform)
+// =============================================================================
+// The /calendar/ page is generated as a Markdown table inside an <article>.
+// Kramdown emits one <th> row + many <tr>/<td> rows. On mobile the existing
+// .iyf-fallback rule `overflow-x: scroll` hides the ticket-link column.
+//
+// FIX: at narrow widths, repaint each <tr> as a stacked card.
+//   - <th> row is hidden visually (kept for AT via aria-hidden=false)
+//   - each <td> gets a label injected via ::before
+//   - the ticket-link <td> turns into a full-width .btn-ticket-style anchor
+//
+// The Jekyll generator stays a markdown table. The ONLY change needed in the
+// generator is wrapping the table in `<div class="iyf-calendar">…</div>` and
+// optionally adding column-order class to the <table> -- see INTEGRATION.md.
+// No JS, no data-label requirement (we use nth-child position).
+// -----------------------------------------------------------------------------
+
+.iyf-calendar {
+  width: 100%;
+  margin: var(--space-7) 0;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+    word-wrap: break-word;
+    // Reset Type-on-Strap's `display: inline-block` on tables so the calendar
+    // grid renders normally on desktop.
+    display: table;
+  }
+
+  thead th {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    font-family: var(--font-body);
+    font-size: var(--fs-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    border-bottom: 2px solid var(--brand-red);
+    background: transparent;
+  }
+
+  tbody td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: middle;
+    font-size: var(--fs-base);
+    color: var(--text); // theme-aware — required when Type-on-Strap renders in dark mode
+  }
+
+  tbody tr:hover {
+    background: var(--surface-elev);
+  }
+
+  // Show name link (column 3)
+  tbody td:nth-child(3) a {
+    font-family: var(--font-display);
+    font-size: var(--fs-md);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--text); // was --brand-ink; theme-aware so dark mode flips it to light
+    text-decoration: none;
+  }
+  tbody td:nth-child(3) a:hover {
+    color: var(--brand-red);
+  }
+
+  // Ticket link (last column) -- visually a button even at desktop
+  tbody td:last-child a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 1rem;
+    min-height: var(--touch-min);
+    border-radius: var(--radius-md);
+    background: var(--cta);
+    color: var(--cta-text);
+    font-family: var(--font-display);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color var(--t-fast) var(--ease-out);
+  }
+  tbody td:last-child a::after {
+    content: "\2192";
+    margin-left: 0.2rem;
+  }
+  tbody td:last-child a:hover {
+    background: var(--cta-hover);
+  }
+
+  // ===========================================================================
+  // Mobile transform -- under 768px, paint each row as a stacked card.
+  // No data-label attribute required: column order is the contract.
+  //   col 1: Date          col 2: Day        col 3: Show (link)
+  //   col 4: Info          col 5: Tickets
+  // ===========================================================================
+  @media (max-width: 767px) {
+    table {
+      display: block;
+      overflow: visible;          // override Type-on-Strap's mobile overflow-x: scroll
+    }
+    thead {
+      // Hide the header row visually but keep it in the accessibility tree
+      // by leaving the markup in place. Off-screen so screen readers can still
+      // announce column intent if a user navigates by table semantics.
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    tbody, tr {
+      display: block;
+      width: 100%;
+    }
+    tbody tr {
+      position: relative;
+      margin-bottom: var(--space-5);
+      padding: var(--space-4) var(--space-5);
+      background: var(--surface-elev);
+      color: var(--text);                // explicit so cards stay readable in dark mode
+      border: 1px solid var(--border-soft);
+      border-left: 4px solid var(--brand-red);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 6px 14px -10px rgba(0, 0, 0, 0.10);
+    }
+    tbody tr:hover {
+      background: var(--surface-elev);
+    }
+
+    tbody td {
+      display: block;
+      width: 100%;
+      padding: var(--space-1) 0;
+      border: none;
+      font-size: var(--fs-base);
+    }
+
+    // Column-position-aware overrides --------------------------------------
+    // Col 1 (Date) + Col 2 (Day) live on the same line as an eyebrow.
+    tbody td:nth-child(1) {
+      display: inline-block;
+      width: auto;
+      font-family: var(--font-display);
+      font-size: var(--fs-lg);
+      color: var(--brand-red);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      padding-right: var(--space-2);
+    }
+    tbody td:nth-child(2) {
+      display: inline-block;
+      width: auto;
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 0 var(--space-2) 0;
+    }
+    tbody td:nth-child(2)::before {
+      content: "\00b7\00a0"; // " · "
+      color: var(--muted);
+    }
+
+    // Col 3 (Show) -- big display
+    tbody td:nth-child(3) {
+      padding: var(--space-1) 0 var(--space-1);
+    }
+    tbody td:nth-child(3) a {
+      font-size: var(--fs-lg);
+    }
+
+    // Col 4 (Info / tagline)
+    tbody td:nth-child(4) {
+      font-family: var(--font-body);
+      font-size: var(--fs-sm);
+      color: var(--muted);                // theme-aware (was --brand-ink-soft, always dark)
+      padding: var(--space-1) 0 var(--space-3);
+      line-height: var(--lh-normal);
+    }
+
+    // Col 5 (Tickets) -- full-width CTA, the conversion target
+    tbody td:last-child {
+      padding: 0;
+      margin-top: var(--space-2);
+    }
+    tbody td:last-child a {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      font-size: var(--fs-md);
+      padding: 0.85rem 1rem;
+    }
+  }
+
+  // Tiny phones (≤375px): keep the same card layout, just tighter padding.
+  @media (max-width: 375px) {
+    tbody tr {
+      padding: var(--space-3) var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Month section heading + tagline above each month's table
+// -----------------------------------------------------------------------------
+.iyf-month-heading {
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  margin: var(--space-9) 0 var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 3px solid var(--brand-yellow);
+}
+
+.iyf-month-flavor {
+  font-family: var(--font-accent);
+  font-size: var(--fs-md);
+  color: var(--brand-red);
+  margin: 0 0 var(--space-5);
+}
