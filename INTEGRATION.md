@@ -26,6 +26,21 @@
 >
 > Reference JS implementation: `Design/inyourfacecomedy/assets/js/jump-to-next-show.js` (116 lines, zero deps, IIFE + `'use strict'`).
 
+> **v1.3 — Comedians directory (2026-05-26)** — new surface at `/comedians/` and `/comedians/<slug>/`. Sourced from Grist via a Ruby cron script that lives in the consuming Jekyll repo, not in the design system.
+>
+> | Surface | Provided by design system | Provided by consuming app |
+> |---|---|---|
+> | Comedian grid | `.iyf-comedian-grid` — mobile-first responsive grid (2 / 3 / 4 columns at <480 / ≥768 / ≥1024). | Hub page iterates `site.comedians \| sort: "title"`. |
+> | Comedian card | `.iyf-comedian-card` — 1:1 photo crop, object-fit:cover, hover lift mirroring `.iyf-event-card`. Placeholder gradient when no photo. | Markup: anchor wrapping `__media` (img or `__media--placeholder`) + `__name`. |
+> | Profile layout | `.iyf-comedian-profile` — header (photo+name, stacks under 768px), bio prose, socials row, back link. | Markup ships from `_layouts/comedian.liquid`. |
+> | Social link chips | `.iyf-social-link` + `--instagram / --tiktok / --facebook / --x / --youtube / --website` modifiers. Tap-target ≥44px (uses `--touch-min`). Hover paints brand colour. | Liquid conditional renders only platforms with a non-empty URL. |
+> | Photo size budget | — | Ruby script resizes via `sips` until file is ≤95KB; saved to `assets/img/comedians/<slug>.<ext>`. |
+> | Privacy filter | — | Allowlist of public fields in the script; Phone/Email never written. `Live=false` deletes the slug page and its photo. |
+>
+> Reference implementations:
+> - SCSS: `components/comedian-card.scss` + `components/comedian-profile.scss` (mirrored at `_sass/components/_comedian-card.scss` + `_comedian-profile.scss` in the Jekyll repo).
+> - Cron script: `Design/inyourfacecomedy/script/sync-comedians.rb` (Ruby, stdlib + `sips` only, no gem deps).
+
 
 A file-by-file map for landing this design system inside `Design/inyourfacecomedy/`. The order matters — tokens first, then components, then layout edits. Verify after every step with `Skill("Interceptor")` at 320 / 375 / 768 / 1440 px.
 

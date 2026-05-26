@@ -739,3 +739,195 @@ html[data-theme="dark"] {
   overflow: hidden; clip: rect(0, 0, 0, 0);
   white-space: nowrap; border: 0;
 }
+
+/* ============================================================================
+   Comedian Card + Profile — v1.3 (2026-05-26)
+   ============================================================================
+   New surface: /comedians/ directory + per-comedian profile. Mirrors the
+   event-card motion/shadow language; uses a 1:1 photo crop and the existing
+   token scale so it lands inside the rest of the system with no new tokens.
+   Source: components/comedian-card.scss + components/comedian-profile.scss.
+   ----------------------------------------------------------------------------*/
+
+.iyf-comedian-grid {
+  list-style: none;
+  margin: var(--space-7) auto;
+  padding: 0 var(--space-5);
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (min-width: 768px) {
+  .iyf-comedian-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-6); }
+}
+@media (min-width: 1024px) {
+  .iyf-comedian-grid { grid-template-columns: repeat(4, 1fr); max-width: 1200px; }
+}
+.iyf-comedian-grid__item { list-style: none; }
+.iyf-comedian-grid__empty {
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-body);
+  margin: var(--space-9) auto;
+}
+
+.iyf-comedian-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--text);
+  background: var(--surface-elev);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 8px 20px -12px rgba(0, 0, 0, 0.12);
+  transition: transform var(--t-base) var(--ease-out), box-shadow var(--t-base) var(--ease-out);
+}
+.iyf-comedian-card:hover,
+.iyf-comedian-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 14px 28px -14px rgba(0, 0, 0, 0.20);
+  color: var(--text);
+  text-decoration: none;
+}
+.iyf-comedian-card__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: color-mix(in oklab, var(--brand-yellow) 8%, var(--surface-elev));
+}
+.iyf-comedian-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--t-slow) var(--ease-out);
+}
+.iyf-comedian-card__media--placeholder {
+  background:
+    linear-gradient(135deg,
+      color-mix(in oklab, var(--brand-yellow) 12%, var(--surface-elev)),
+      color-mix(in oklab, var(--brand-red) 8%, var(--surface-elev)));
+}
+.iyf-comedian-card:hover .iyf-comedian-card__media img,
+.iyf-comedian-card:focus-visible .iyf-comedian-card__media img {
+  transform: scale(1.04);
+}
+.iyf-comedian-card__name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text);
+  padding: 0 var(--space-2) var(--space-2);
+  line-height: var(--lh-tight);
+}
+
+/* ---- Profile -------------------------------------------------------------- */
+
+.iyf-comedian-profile {
+  max-width: 760px;
+  margin: var(--space-7) auto var(--space-9);
+  padding: 0 var(--space-5);
+}
+.iyf-comedian-profile__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .iyf-comedian-profile__header {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: var(--space-6);
+  }
+}
+.iyf-comedian-profile__media {
+  flex: 0 0 auto;
+  width: 180px;
+  height: 180px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--brand-yellow) 8%, var(--surface-elev));
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 12px 24px -14px rgba(0, 0, 0, 0.20);
+}
+@media (min-width: 768px) {
+  .iyf-comedian-profile__media { width: 200px; height: 200px; }
+}
+.iyf-comedian-profile__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.iyf-comedian-profile__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin: 0;
+  line-height: var(--lh-tight);
+}
+.iyf-comedian-profile__bio {
+  font-family: var(--font-body);
+  font-size: var(--fs-md);
+  color: var(--text);
+  line-height: var(--lh-loose);
+  margin: var(--space-6) 0;
+}
+.iyf-comedian-profile__bio p { margin: 0 0 var(--space-4); }
+.iyf-comedian-profile__socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: var(--space-6) 0;
+}
+.iyf-comedian-profile__back {
+  margin: var(--space-7) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+}
+.iyf-comedian-profile__back a { color: var(--muted); text-decoration: none; }
+.iyf-comedian-profile__back a:hover { color: var(--text); }
+
+/* ---- Social link buttons -------------------------------------------------- */
+
+.iyf-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.95rem;
+  min-height: var(--touch-min, 44px);
+  border-radius: var(--radius-md);
+  background: var(--surface-elev);
+  color: var(--text);
+  border: 1px solid var(--border-soft);
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color var(--t-fast) var(--ease-out),
+    color            var(--t-fast) var(--ease-out),
+    border-color     var(--t-fast) var(--ease-out),
+    transform        var(--t-fast) var(--ease-out);
+}
+.iyf-social-link i { font-size: var(--fs-md); }
+.iyf-social-link:hover,
+.iyf-social-link:focus-visible { transform: translateY(-1px); text-decoration: none; }
+.iyf-social-link--instagram:hover { background: #E1306C; color: #FFFFFF; border-color: transparent; }
+.iyf-social-link--tiktok:hover    { background: #000000; color: #FFFFFF; border-color: transparent; }
+.iyf-social-link--facebook:hover  { background: #1877F2; color: #FFFFFF; border-color: transparent; }
+.iyf-social-link--x:hover         { background: #000000; color: #FFFFFF; border-color: transparent; }
+.iyf-social-link--youtube:hover   { background: #FF0000; color: #FFFFFF; border-color: transparent; }
+.iyf-social-link--website:hover   { background: var(--brand-red); color: #FFFFFF; border-color: transparent; }
