@@ -119,7 +119,7 @@
     color: var(--muted);
   }
 
-  // -- Title + tagline -------------------------------------------------------
+  // -- Title + subtitle + tagline --------------------------------------------
   &__title {
     font-family: var(--font-display);
     font-size: var(--fs-xl);
@@ -135,6 +135,31 @@
     a:hover {
       color: var(--show-accent, var(--brand-red));
     }
+  }
+
+  // Secondary title — the second segment of a "•"- or " - "-separated
+  // post.title. Uses the same accent font as .iyf-hero__subtitle on show
+  // pages so the homepage card and the show hero feel like the same
+  // surface at different scales. Line-clamped to 2 lines so it always
+  // fits in the card. Distinct from __tagline (also accent font, but a
+  // sticker-style flourish, often emoji-bearing). Anatomy:
+  //
+  //   COMEDY BREW                          <-- __title (display, uppercase)
+  //   English Stand-Up Comedy Open Mic     <-- __subtitle (accent, smaller)
+  //   Cold beer, hot takes, done by 10pm   <-- __tagline (accent, sticker)
+  &__subtitle {
+    font-family: var(--font-accent);        // matches .iyf-hero__subtitle
+    font-size: var(--fs-sm);
+    line-height: var(--lh-snug);
+    color: inherit;
+    opacity: 0.78;
+    margin: calc(var(--space-2) * -1) 0 0;  // pull up under __title
+    text-transform: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__tagline {
